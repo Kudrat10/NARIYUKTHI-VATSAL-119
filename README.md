@@ -4,5 +4,5 @@ strengths, weaknesses, and career aspirations. It provides personalized recommen
 The portal aligns with Sustainable Development Goals (SDG) 4: Quality Education and SDG 8: Decent Work and Economic Growth, aiming to foster lifelong 
 learning opportunities and enhance employability.
 
-view more details at:
+View more details at:
 https://www.canva.com/design/DAGdIqOrfjs/sHnGFIXltsF_aHedMZkVGw/edit?utm_content=DAGdIqOrfjs&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
