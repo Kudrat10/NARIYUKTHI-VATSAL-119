@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VATSAL EARN & GROW</title>
+  <style>
+    /* Body Styling */
+    body {
+      margin: 0;
+      font-family: 'Georgia', serif;
+      overflow: hidden;
+      background: linear-gradient(120deg, #1e1e2f, #283048);
+      color: white;
+      animation: bgShift 8s infinite alternate;
+    }
+
+    @keyframes bgShift {
+      0% {
+        background: linear-gradient(120deg, #1e1e2f, #283048);
+      }
+      100% {
+        background: linear-gradient(120deg, #283048, #4a5678);
+      }
+    }
+
+    .container {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 3.5rem;
+      text-transform: uppercase;
+      background: linear-gradient(to right, #ff758c, #ff7eb3);
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 5px;
+      text-shadow: 0 4px 10px rgba(255, 120, 150, 0.8);
+    }
+
+    h2 {
+      font-size: 1.5rem;
+      color: #ffebf3;
+      margin-bottom: 20px;
+      animation: fadeIn 2s ease-in-out infinite alternate;
+    }
+
+    @keyframes fadeIn {
+      0% {
+        opacity: 0.6;
+      }
+      100% {
+        opacity: 1;
+      }
+    }
+
+    p {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+
+    button {
+      background: linear-gradient(90deg, #ff758c, #ff7eb3);
+      border: none;
+      padding: 15px 25px;
+      border-radius: 25px;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 20px;
+      width: 250px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #ff7eb3;
+    }
+
+    .card p {
+      font-size: 1rem;
+      margin-bottom: 15px;
+    }
+
+    .card a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+    }
+
+    /* 3D Canvas */
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>VATSAL</h1>
+    <h2>Earn & Grow</h2>
+    <p>We connect you to earning opportunities. Explore the resources below!</p>
+    <div class="card-container">
+      <div class="card">
+        <h3>Freelance Work</h3>
+        <p>Find top freelancing websites to start earning today.</p>
+        <a href="https://www.upwork.com" target="_blank">Go to Upwork</a>
+      </div>
+      <div class="card">
+        <h3>Online Courses</h3>
+        <p>Learn skills that help you monetize your expertise.</p>
+        <a href="https://www.coursera.org" target="_blank">Go to Coursera</a>
+      </div>
+      <div class="card">
+        <h3>Remote Jobs</h3>
+        <p>Discover remote job portals for full-time income.</p>
+        <a href="https://remoteok.io" target="_blank">Go to RemoteOK</a>
+      </div>
+    </div>
+    <button onclick="alert('More features coming soon!')">Explore More</button>
+  </div>
+
+  <canvas id="bg"></canvas>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg'), alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    document.body.appendChild(renderer.domElement);
+
+    const geometry = new THREE.SphereGeometry(1, 32, 32);
+    const material = new THREE.MeshStandardMaterial({
+      color: 0xff758c,
+      emissive: 0xff7eb3,
+      wireframe: true,
+    });
+    const sphere = new THREE.Mesh(geometry, material);
+
+    scene.add(sphere);
+
+    const pointLight = new THREE.PointLight(0xffffff);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+      sphere.rotation.x += 0.01;
+      sphere.rotation.y += 0.01;
+      renderer.render(scene, camera);
+    };
+
+    camera.position.z = 5;
+    animate();
+
+    window.addEventListener('resize', () => {
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+    });
+  </script>
+</body>
+</html>

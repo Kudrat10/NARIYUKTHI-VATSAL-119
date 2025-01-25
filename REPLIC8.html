@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Clone 3D Portal</title>
+  <style>
+    body, html {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #f0f0f0;
+    }
+
+    .portal {
+      display: flex;
+      height: 100vh;
+      perspective: 1000px;
+      transition: transform 0.5s ease;
+    }
+
+    .portal-side {
+      width: 50%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.5s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .chatbot {
+      background-color: #ffffff;
+      box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar {
+      background-color: #000000;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    #avatar-video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .upload-area {
+      width: 80%;
+      height: 80%;
+      border: 2px dashed #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #ccc;
+      font-size: 18px;
+    }
+
+    .upload-area.dragover {
+      background-color: rgba(0, 0, 0, 0.1);
+      color: #333;
+    }
+
+    .upload-area p {
+      margin: 0;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="portal">
+    <!-- Chatbot Section -->
+    <div class="portal-side chatbot" id="chatbot-side">
+      <div class="upload-area" id="chatbot-upload">
+        <p>Drag and drop a chatbot iframe link here or paste the URL.</p>
+        <!-- Embed Dialogflow chatbot with specified height and width -->
+        <iframe height="430" width="350" src="https://bot.dialogflow.com/eed44ebc-09ae-4385-aa40-c7e56f5e24af"></iframe>
+      </div>
+    </div>
+
+    <!-- Avatar Section -->
+    <div class="portal-side avatar" id="avatar-side">
+      <div class="upload-area" id="avatar-upload">
+        <p>Drag and drop a video file here to set as your avatar.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Handle Chatbot Link Drop
+    const chatbotUploadArea = document.getElementById('chatbot-upload');
+    chatbotUploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      chatbotUploadArea.classList.add('dragover');
+    });
+
+    chatbotUploadArea.addEventListener('dragleave', () => {
+      chatbotUploadArea.classList.remove('dragover');
+    });
+
+    chatbotUploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      chatbotUploadArea.classList.remove('dragover');
+      const url = e.dataTransfer.getData('text/plain');
+      if (url) {
+        const iframe = document.createElement('iframe');
+        iframe.src = url;
+        chatbotUploadArea.innerHTML = ''; // Clear the placeholder
+        chatbotUploadArea.appendChild(iframe);
+      }
+    });
+
+    // Handle Avatar Video Drop
+    const avatarUploadArea = document.getElementById('avatar-upload');
+    avatarUploadArea.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      avatarUploadArea.classList.add('dragover');
+    });
+
+    avatarUploadArea.addEventListener('dragleave', () => {
+      avatarUploadArea.classList.remove('dragover');
+    });
+
+    avatarUploadArea.addEventListener('drop', (e) => {
+      e.preventDefault();
+      avatarUploadArea.classList.remove('dragover');
+      const file = e.dataTransfer.files[0];
+      if (file && file.type.startsWith('video/')) {
+        const video = document.createElement('video');
+        video.id = 'avatar-video';
+        video.src = URL.createObjectURL(file);
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;
+        avatarUploadArea.innerHTML = ''; // Clear the placeholder
+        avatarUploadArea.appendChild(video);
+      } else {
+        alert('Please drop a valid video file.');
+      }
+    });
+
+    // 3D Effect for the Portal
+    const portal = document.querySelector('.portal');
+    portal.addEventListener('mousemove', (e) => {
+      const centerX = window.innerWidth / 2;
+      const centerY = window.innerHeight / 2;
+      const deltaX = e.clientX - centerX;
+      const deltaY = e.clientY - centerY;
+      const rotateX = (deltaY / centerY) * 10;
+      const rotateY = (deltaX / centerX) * -10;
+      portal.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+    });
+  </script>
+
+</body>
+</html>
+
